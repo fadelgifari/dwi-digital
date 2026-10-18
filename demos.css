@@ -205,3 +205,10 @@
 .prow .phone { width: 350px; height: 690px; border-radius: 50px; padding: 11px; } .prow .phone .scr { border-radius: 40px; } .prow { grid-template-columns: 370px 1fr; }
 .dash { height: 700px; }
 .prow .phone .pc { padding-bottom: 140px; }
+
+/* QSERRA: keep the footer (Berikutnya ›) on screen - the panel scrolls, not the page */
+.qs { grid-template-rows: minmax(0, 1fr); }
+.qs .qmain { min-height: 0; }
+.qs .qpanel .qpl { min-height: 0; }
+.qs .qft { flex: none; }
+.qs .qpanel { grid-template-rows: minmax(0, 1fr); }

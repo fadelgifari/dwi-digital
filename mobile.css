@@ -75,7 +75,7 @@ html.m .qs { grid-template-columns: 1fr; border-radius: 0; box-shadow: none; } h
 html.m .qs .qhd { padding: 12px 14px 6px; } html.m .qs .qhd h1 { font-size: 19px; } html.m .qs .qhd p { font-size: 12px; } html.m .qs .qhd .rf { display: none; }
 html.m .qs .qst { padding: 4px 12px 8px; overflow-x: auto; } html.m .qs .qst span { flex: none; font-size: 11.5px; padding: 6px 8px; }
 html.m .qs .qpanel { margin: 0 10px; grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-html.m .qs .qpl { border-right: 0; border-bottom: 1px solid rgba(56,189,248,.15); max-height: 34vh; padding: 10px; }
+html.m .qs .qpl { border-right: 0; border-bottom: 1px solid rgba(56,189,248,.15); max-height: 24vh; padding: 10px; }
 html.m .qs .qpt { font-size: 13.5px; padding: 8px; } html.m .qs .qpr { padding: 12px; } html.m .qs .qpr h2 { font-size: 18px; }
 html.m .qs .qq b { font-size: 14.5px; } html.m .qs .qq .ja { font-size: 13px; }
 html.m .qs .qft { padding: 10px 12px 14px; } html.m .qs .qbtn { height: 44px; padding: 0 16px; font-size: 15px; }

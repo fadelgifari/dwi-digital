@@ -119,6 +119,7 @@
   .cn b { display: block; font-size: 22px; } .cn span { display: block; font-size: 18px; color: var(--mut); margin-top: 4px; }
   .toast { position: absolute; right: 40px; bottom: 40px; z-index: 50; background: #fff; color: #1d1d1f; border-radius: 18px; padding: 18px 24px; font-size: 21px; font-weight: 600;
            box-shadow: 0 20px 60px rgba(0,0,0,.5); display: flex; gap: 14px; align-items: center; transform: translateY(30px); opacity: 0; transition: all .35s; max-width: 640px; }
+  .toast { pointer-events: none; }   /* notifications never block taps underneath */
   .toast.show { transform: none; opacity: 1; }
   .toast i { font-style: normal; font-size: 28px; }
   .audit { font-size: 20px; line-height: 1.7; color: #cdd3df; }
@@ -204,7 +205,7 @@
   .qr b { display: block; font-size: 22px; } .qr span { font-size: 17px; color: var(--mut); }
   @keyframes breathe { 50% { transform: translateX(-50%) scale(1.05); } }
 </style>
-<link rel="stylesheet" href="demos.css?v=5"><link rel="stylesheet" href="mobile.css?v=3"></head>
+<link rel="stylesheet" href="demos.css?v=6"><link rel="stylesheet" href="mobile.css?v=4"></head>
 <body>
 <div id="stage">
   <div class="top">
@@ -247,6 +248,6 @@
   <div id="attract"><video id="attvid" muted playsinline></video><div class="pill">👆 Touch to explore DWI Digital</div></div>
 </div>
 <script src="data/qserra.js"></script>
-<script src="kiosk.js?v=7"></script>
+<script src="kiosk.js?v=8"></script>
 <script src="demos.js?v=5"></script>
 </body></html>
