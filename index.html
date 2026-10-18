@@ -194,12 +194,17 @@
   #attract video { width: 100%; height: 100%; object-fit: cover; }
   #attract .pill { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%); padding: 22px 40px; border-radius: 50px; background: rgba(255,255,255,.14); backdrop-filter: blur(12px);
                    border: 1px solid rgba(255,255,255,.3); font-size: 30px; font-weight: 800; animation: breathe 2.4s ease-in-out infinite; white-space: nowrap; }
+  .talk { position: absolute; left: 70px; bottom: 22px; display: flex; align-items: center; gap: 18px; background: var(--panel2); border: 1px solid var(--line); border-radius: 22px; padding: 10px 26px 10px 10px; }
+  .talk img { width: 132px; height: 132px; border-radius: 12px; background: #fff; padding: 6px; }
+  .talk div { display: flex; flex-direction: column; } .talk b { font-size: 22px; } .talk .nm { font-size: 20px; font-weight: 800; color: var(--ink); margin-top: 2px; }
+  .talk span { font-size: 15px; color: var(--mut); line-height: 1.35; } .talk small { font-size: 13px; color: var(--acc); font-weight: 700; margin-top: 4px; }
+  .cfoot, .dbar { display: none; }
   .qr { position: absolute; right: 70px; bottom: 22px; display: flex; align-items: center; gap: 18px; background: var(--panel2); border: 1px solid var(--line); border-radius: 22px; padding: 10px 10px 10px 24px; }
   .qr img { width: 132px; height: 132px; border-radius: 12px; background: #fff; padding: 8px; }
   .qr b { display: block; font-size: 22px; } .qr span { font-size: 17px; color: var(--mut); }
   @keyframes breathe { 50% { transform: translateX(-50%) scale(1.05); } }
 </style>
-<link rel="stylesheet" href="demos.css?v=5"><link rel="stylesheet" href="mobile.css?v=2"></head>
+<link rel="stylesheet" href="demos.css?v=5"><link rel="stylesheet" href="mobile.css?v=3"></head>
 <body>
 <div id="stage">
   <div class="top">
@@ -214,6 +219,8 @@
       <p>By the people who work on the rigs, for the rigs. Tap one to explore and try it.</p></div>
     <div class="tiles" id="tiles"></div>
     <div class="hint">👆 <b>Tap an app</b> to watch it and try a hands-on demo</div>
+    <div class="talk" id="talk"><img src="media/contact/vcard_qr.png" alt=""><div><b>Talk to us</b><span class="nm">Fadel Thariq Gifari</span>
+      <span>Performance Engineer · DWI Digital</span><span>📱 +62 813 7848 1090</span><span>✉️ mk.fadel.gifari@mitrakerja.pertamina.com</span><small>Scan to save contact</small></div></div>
   </section>
 
   <section class="view" id="v-app">
@@ -240,6 +247,6 @@
   <div id="attract"><video id="attvid" muted playsinline></video><div class="pill">👆 Touch to explore DWI Digital</div></div>
 </div>
 <script src="data/qserra.js"></script>
-<script src="kiosk.js?v=5"></script>
+<script src="kiosk.js?v=7"></script>
 <script src="demos.js?v=5"></script>
 </body></html>

@@ -58,8 +58,8 @@ function openApp(a) {
   $('#a-logo').src = a.logo; $('#a-name').textContent = a.name; $('#a-line').textContent = a.line;
   $('#a-stats').innerHTML = a.stats.map((s) => `<div class="st3" style="--c:${a.c}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
   $('#a-how').innerHTML = a.how.map((h, i) => `<div><i style="--c:${a.c}">${i + 1}</i><span>${h}</span></div>`).join('');
-  const tr = $('#a-try'); tr.textContent = a.tryText; tr.className = 'try' + (a.demo ? '' : ' disabled'); tr.style.setProperty('--c', a.c);
-  tr.onclick = a.demo ? () => openDemo(a) : null;
+  const tr = $('#a-try'); tr.textContent = a.tryText; tr.className = 'try' + (a.demo || a.link ? '' : ' disabled'); tr.style.setProperty('--c', a.c);
+  tr.onclick = a.link ? () => window.open(a.link, '_blank', 'noopener') : a.demo ? () => openDemo(a) : null;
   const vids = [['Film', a.film]].concat(a.extra || []);
   const tabs = $('#vtabs'); tabs.innerHTML = '';
   const play = (src, b) => { const v = $('#appvid'); v.src = src; v.muted = true; v.play().catch(() => {}); tabs.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === b)); };
@@ -340,4 +340,44 @@ function startAttract() { const a = $('#attract'), v = $('#attvid'); a.style.dis
 function stopAttract() { const a = $('#attract'); if (a.style.display === 'block') { a.style.display = 'none'; $('#attvid').pause(); show('home'); } }
 function poke() { return; clearTimeout(idleT); idleT = setTimeout(startAttract, IDLE_MS); }
 ['pointerdown', 'keydown', 'touchstart'].forEach((e) => addEventListener(e, () => { stopAttract(); poke(); }, { capture: true }));
+/* ---------- contact: "Want this for your rig?" (phones) ---------- */
+const CONTACT = { name: 'Fadel Thariq Gifari', title: 'Performance Engineer · DWI Digital, Pertamina Hulu Rokan', tel: '+6281378481090',
+  wa: '6281378481090', email: 'mk.fadel.gifari@mitrakerja.pertamina.com', linkedin: 'https://linkedin.com/in/fadelg' };
+const WA_TEXT = encodeURIComponent('Halo Pak Fadel, saya tertarik dengan aplikasi DWI Digital (dari booth).');
+const MAIL = `mailto:${CONTACT.email}?subject=${encodeURIComponent('DWI Digital apps - follow-up from the booth')}`;
+const cbtns = () => `<div class="cbtns"><a class="cb wa" href="https://wa.me/${CONTACT.wa}?text=${WA_TEXT}" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <a class="cb" href="tel:${CONTACT.tel}">📞 Call</a><a class="cb" href="${MAIL}">✉️ Email</a></div>`;
+function contactFooter() {
+  return el(`<div class="cfoot"><b>Want this for your rig?</b><span>Talk to <strong>${CONTACT.name}</strong><br>${CONTACT.title}</span>${cbtns()}
+    <div class="cmore"><a href="${CONTACT.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="media/contact/fadel.vcf" download="Fadel Thariq Gifari.vcf">Save contact</a></div></div>`);
+}
+$('#v-home').appendChild(contactFooter());
+$('#v-app').appendChild(contactFooter());
+$('#v-demo').appendChild(el(`<div class="dbar"><b>Want this for your rig?</b>${cbtns()}</div>`));
+/* ---------- JoRUN AI live: on the booth laptop (Start TV2.command runs JoRUN on :5050), "Try it" opens the real app ---------- */
+const JORUN_URL = 'http://127.0.0.1:5050/';
+DEMOS.jorun = function () {
+  steps(['JoRUN AI · live'], 0);
+  document.querySelector('.demo-tag').textContent = 'LIVE APP';
+  body(`<iframe src="${JORUN_URL}" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0 0 30px 30px;background:#fff" allow="camera; microphone; clipboard-write"></iframe>`);
+};
+if (!MOBILE && (location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) {
+  fetch(JORUN_URL + 'health', { mode: 'no-cors', cache: 'no-store' }).then(() => {
+    const j = APPS.find((a) => a.id === 'jorun'); j.demo = 'jorun'; j.tryText = 'Try it: ask JoRUN AI live';
+  }).catch(() => {});
+}
+/* phones / public site: JoRUN runs on the booth laptop and is shared through ngrok while Start TV2 is running.
+   The button only lights up when that link answers; Stop TV2 takes it offline again. */
+const JORUN_PUBLIC = 'https://crank-saggy-retainer.ngrok-free.dev/';   // fixed ngrok dev domain; live only while Start TV2 runs
+function checkPublicJorun() {
+  if (!JORUN_PUBLIC || !MOBILE) return;
+  const j = APPS.find((a) => a.id === 'jorun');
+  fetch(JORUN_PUBLIC + 'health', { headers: { 'ngrok-skip-browser-warning': '1' }, cache: 'no-store' })
+    .then((r) => r.json()).then((d) => { const up = d && d.status === 'ok';
+      j.link = up ? JORUN_PUBLIC : null; j.tryText = up ? 'Try it: ask JoRUN AI live ↗' : 'Live demo at the booth — ask us';
+      if (cur === j && $('#v-app').classList.contains('on')) { const tr = $('#a-try'); tr.textContent = j.tryText; tr.className = 'try' + (up ? '' : ' disabled');
+        tr.onclick = up ? () => window.open(j.link, '_blank', 'noopener') : null; } })
+    .catch(() => { j.link = null; });
+}
+checkPublicJorun(); setInterval(checkPublicJorun, 60000);
 home(); poke();
