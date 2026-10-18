@@ -16023,5 +16023,73 @@ html { scroll-behavior: smooth; }
   #appContent .flex.border-b.border-navy-200 { top: 0; }
 }
 </style>
+<style id="jorun-autofocus-css">
+.jr-nofocus { margin-left: 8px; padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 600; cursor: pointer; white-space: nowrap;
+  background: transparent; color: var(--rag-muted, #8b949e); border: 1px dashed var(--rag-border, #30363d); }
+.jr-nofocus:hover { color: var(--rag-text, #e6edf3); border-style: solid; }
+.jr-nofocus.off { color: #3fb950; border-color: #238636; border-style: solid; }
+.jr-nofocus[hidden] { display: none !important; }
+</style>
+<script id="jorun-autofocus-js">
+/* Picking a well from the list focuses JoRUN on it automatically, and it stays focused for follow-up
+   questions. "Don't focus on a well" turns that off (remembered on this device): then the chip works
+   the old way, opt-in per message. The same button reads "Auto-focus wells" to switch it back on. */
+(function () {
+  var KEY = 'jr_well_autofocus';
+  function auto() { try { return localStorage.getItem(KEY) !== '0'; } catch (e) { return true; } }
+  function setAuto(v) { try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (e) {} }
+  function well() { return (typeof CURRENT_WELL !== 'undefined' && CURRENT_WELL) ? CURRENT_WELL.wellName : ''; }
+  function setFocus(on) {            // same state change as clicking the chip, without its pop-up
+    if (typeof wellChipActive === 'undefined') return;
+    on = !!on && !!well();
+    wellChipActive = on;
+    var chip = document.getElementById('well-chip'), hint = document.getElementById('well-chip-hint'),
+        label = document.getElementById('well-chip-label');
+    if (chip) chip.classList.toggle('active', on);
+    if (hint) { hint.textContent = on ? '✓ well context will be sent with your message' : 'click to include well context'; hint.style.color = on ? '#22a04d' : ''; }
+    if (label && well()) label.textContent = (on ? 'Focused: ' : 'Focus well: ') + well();
+    if (chip && well()) chip.title = on ? ('ON - Jorun answers about ' + well() + '. Click to turn off.') : ('OFF - click to focus Jorun on ' + well() + '.');
+    paint();
+  }
+  function button() {
+    var b = document.getElementById('jr-nofocus');
+    if (!b) {
+      b = document.createElement('button'); b.id = 'jr-nofocus'; b.type = 'button'; b.className = 'jr-nofocus';
+      b.onclick = function () { var a = !auto(); setAuto(a); setFocus(a); };
+    }
+    var chip = document.getElementById('well-chip');
+    if (chip && chip.nextElementSibling !== b) chip.insertAdjacentElement('afterend', b);   // follows the chip wherever it is placed
+    return b;
+  }
+  function paint() {
+    var b = button(), a = auto();
+    b.textContent = a ? "Don't focus on a well" : 'Auto-focus wells';
+    b.title = a ? 'Ask general questions: picking a well will no longer focus JoRUN on it'
+                : 'Picking a well will focus JoRUN on it again';
+    b.classList.toggle('off', !a);
+    b.hidden = !well();
+  }
+  function init(tries) {
+    if (typeof window.updateWellChip !== 'function' || typeof window.send !== 'function' || !document.getElementById('well-chip')) {
+      if (tries < 60) setTimeout(function () { init(tries + 1); }, 250); return;
+    }
+    var u = window.updateWellChip;
+    window.updateWellChip = function (name) {
+      var r = u.apply(this, arguments);
+      if (name && auto()) setFocus(true); else paint();
+      return r;
+    };
+    var s = window.send;
+    window.send = function () {
+      var r = s.apply(this, arguments);          // send() captures the focused well, then clears the chip
+      if (auto() && well()) setFocus(true);       // ...auto-focus keeps it on for the next question
+      return r;
+    };
+    new MutationObserver(function () { button(); }).observe(document.body, { childList: true, subtree: true });
+    if (well() && auto()) setFocus(true); else paint();
+  }
+  init(0);
+})();
+</script>
 </body>
 </html>
