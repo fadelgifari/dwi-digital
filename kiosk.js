@@ -53,10 +53,14 @@ function home() {
   APPS.forEach((a) => { const t = el(`<button class="tile" style="--c:${a.c}"><div class="go">›</div><img src="${a.logo}" alt=""><b>${a.name}</b><span>${a.line}</span>
       <div class="stat">${a.stat[0]}<small>${a.stat[1]}</small></div></button>`); t.onclick = () => openApp(a); g.appendChild(t); });
 }
+/* "Built by" (Book2.xlsx) */
+const TEAMS = {"qserra": [["Agus Rosyidi", "Manager Operation SLS"], ["Farhan Abyan Algerie", "Operation Engineer SLS"], ["Shabrina Mardaus", "Operation Engineer SLS"], ["Putri Sondang Rotua Br Tambunan", "Engineer Assistance"]], "jorun": [["Arief Randy Wicaksono", "Senior Engineer Engineering SLS"], ["Mohammad Syeldy Tria", "Sr DWI Well Control"], ["Rahma Wisnu Suryantoro", "Completion Engineer"], ["Alsa Resya Wardana", "Jr Completion Engineer"]], "protect": [["Danny Widayat", "Manager Operation HO"], ["Fitrah Firmansyah", "Engineer Assistance"]], "soplego": [["Agung Budi Rudiantoro", "Manager Operation SLN"], ["Rahmat Saleh Pulungan", "Assistant Manager Operation HO"], ["Riantana Higuita Pinem", "Companyman"], ["Yan Chandra Timbul Situmorang", "Senior Supervisor WOWI"]], "tcard": [["Irwan Dahlil", "Manager Operation Righub & Rigless"], ["Felisianus Arnold Ekachandra Wibisono", "Senior Engineer Drilling"], ["Fena Nabila", "Operation Engineer"]]};
 function openApp(a) {
   cur = a; document.documentElement.style.setProperty('--c', a.c);
   $('#a-logo').src = a.logo; $('#a-name').textContent = a.name; $('#a-line').textContent = a.line;
   $('#a-stats').innerHTML = a.stats.map((s) => `<div class="st3" style="--c:${a.c}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+  const tm = TEAMS[a.id] || [];
+  $('#a-team').innerHTML = tm.length ? `<div class="tk" style="color:${a.c}">BUILT BY</div><div class="tg">` + tm.map((p) => `<div><b>${p[0]}</b><span>${p[1]}</span></div>`).join('') + '</div>' : '';
   $('#a-how').innerHTML = a.how.map((h, i) => `<div><i style="--c:${a.c}">${i + 1}</i><span>${h}</span></div>`).join('');
   const tr = $('#a-try'); tr.textContent = a.tryText; tr.className = 'try' + (a.demo || a.link ? '' : ' disabled'); tr.style.setProperty('--c', a.c);
   tr.onclick = a.link ? () => window.open(a.link, '_blank', 'noopener') : a.demo ? () => openDemo(a) : null;
@@ -342,14 +346,14 @@ function poke() { return; clearTimeout(idleT); idleT = setTimeout(startAttract, 
 ['pointerdown', 'keydown', 'touchstart'].forEach((e) => addEventListener(e, () => { stopAttract(); poke(); }, { capture: true }));
 /* ---------- contact: "Want this for your company?" (phones) ---------- */
 const CONTACT = { name: 'Fadel Thariq Gifari', title: 'Performance Engineer · DWI Digital, Pertamina Hulu Rokan', tel: '+6281378481090',
-  wa: '6281378481090', email: 'mk.fadel.gifari@mitrakerja.pertamina.com', linkedin: 'https://linkedin.com/in/fadelg' };
+  wa: '6281378481090', email: 'mk.fadel.gifari@mitrakerja.pertamina.com' };
 const WA_TEXT = encodeURIComponent('Halo Pak Fadel, saya tertarik dengan aplikasi DWI Digital (dari booth).');
 const MAIL = `mailto:${CONTACT.email}?subject=${encodeURIComponent('DWI Digital apps - follow-up from the booth')}`;
 const cbtns = () => `<div class="cbtns"><a class="cb wa" href="https://wa.me/${CONTACT.wa}?text=${WA_TEXT}" target="_blank" rel="noopener">💬 WhatsApp</a>
   <a class="cb" href="tel:${CONTACT.tel}">📞 Call</a><a class="cb" href="${MAIL}">✉️ Email</a></div>`;
 function contactFooter() {
   return el(`<div class="cfoot"><b>Want this for your company?</b><span>Talk to <strong>${CONTACT.name}</strong><br>${CONTACT.title}</span>${cbtns()}
-    <div class="cmore"><a href="${CONTACT.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="media/contact/fadel.vcf" download="Fadel Thariq Gifari.vcf">Save contact</a></div></div>`);
+    <div class="cmore"><a href="media/contact/fadel.vcf" download="Fadel Thariq Gifari.vcf">Save contact</a></div></div>`);
 }
 $('#v-home').appendChild(contactFooter());
 $('#v-app').appendChild(contactFooter());

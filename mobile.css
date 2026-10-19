@@ -102,3 +102,6 @@ html.m .dbar { display: flex; align-items: center; gap: 10px; flex: none; paddin
 html.m .dbar b { font-size: 12.5px; line-height: 1.2; flex: none; width: 92px; } html.m .dbar .cbtns { flex: 1; margin: 0; gap: 6px; } html.m .dbar .cb { padding: 9px 4px; font-size: 12.5px; }
 html.m .talk { display: none !important; }
 html.m #v-demo.on ~ .toast, html.m .toast { bottom: 72px; }
+
+html.m .side .team { margin-top: 16px; } html.m .side .team .tk { font-size: 11px; } html.m .side .team .tg { gap: 8px 14px; }
+html.m .side .team b { font-size: 13.5px; } html.m .side .team span { font-size: 11px; }

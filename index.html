@@ -200,12 +200,16 @@
   .talk div { display: flex; flex-direction: column; } .talk b { font-size: 22px; } .talk .nm { font-size: 20px; font-weight: 800; color: var(--ink); margin-top: 2px; }
   .talk span { font-size: 15px; color: var(--mut); line-height: 1.35; } .talk small { font-size: 13px; color: var(--acc); font-weight: 700; margin-top: 4px; }
   .cfoot, .dbar { display: none; }
+  .side .team { margin-top: 22px; }
+  .side .team .tk { font-size: 15px; font-weight: 800; letter-spacing: .22em; }
+  .side .team .tg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; margin-top: 8px; }
+  .side .team b { display: block; font-size: 17px; font-weight: 700; } .side .team span { display: block; font-size: 13px; color: var(--mut); }
   .qr { position: absolute; right: 70px; bottom: 22px; display: flex; align-items: center; gap: 18px; background: var(--panel2); border: 1px solid var(--line); border-radius: 22px; padding: 10px 10px 10px 24px; }
   .qr img { width: 132px; height: 132px; border-radius: 12px; background: #fff; padding: 8px; }
   .qr b { display: block; font-size: 22px; } .qr span { font-size: 17px; color: var(--mut); }
   @keyframes breathe { 50% { transform: translateX(-50%) scale(1.05); } }
 </style>
-<link rel="stylesheet" href="demos.css?v=6"><link rel="stylesheet" href="mobile.css?v=4"></head>
+<link rel="stylesheet" href="demos.css?v=6"><link rel="stylesheet" href="mobile.css?v=5"></head>
 <body>
 <div id="stage">
   <div class="top">
@@ -232,6 +236,7 @@
         <div class="head"><img id="a-logo" alt=""><div><h2 id="a-name"></h2><div class="line" id="a-line"></div></div></div>
         <div class="stats3" id="a-stats"></div>
         <div class="how" id="a-how"></div>
+        <div class="team" id="a-team"></div>
         <button class="try" id="a-try"></button>
       </div>
     </div>
@@ -248,6 +253,6 @@
   <div id="attract"><video id="attvid" muted playsinline></video><div class="pill">👆 Touch to explore DWI Digital</div></div>
 </div>
 <script src="data/qserra.js"></script>
-<script src="kiosk.js?v=8"></script>
+<script src="kiosk.js?v=9"></script>
 <script src="demos.js?v=5"></script>
 </body></html>
